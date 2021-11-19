@@ -11,6 +11,9 @@ const Todo = {
   },
 };
 
-const realm = new Realm({schema: [Todo]});
+const options = {
+  schema: [Todo],
+  path: 'todoList.realm',
+};
 
-export default realm;
+export default new Realm(options);

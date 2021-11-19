@@ -12,59 +12,16 @@ import realm from '../realm/realm';
 
 const TodoScreen = () => {
     const navigation = useNavigation();
+
     console.log(realm.objects('Todo'));
 
     const [todos,setTodos] = useState([]);
+
     useEffect(() => {
         const todoData = realm.objects('Todo');
         setTodos(todoData);
     },[]);
 
-    const deleteTodo = (id) => {
-        realm.write(() => {
-            const delTodo = realm.objectForPrimaryKey('Todo',id);
-            realm.delete(delTodo);
-        });
-        setTodos(todos.filter(todo => todo.id !== id));
-    };
-
-    const data = [
-        {
-            id: 1,
-            title: 'Task 1',
-            task: 'lorem epsum is here',
-        },
-        {
-            id: 2,
-            title: 'Task 2',
-            task: 'lorem epsum is here',
-        },
-        {
-            id: 3,
-            title: 'Task 3',
-            task: 'lorem epsum is here',
-        },
-        {
-            id: 4,
-            title: 'Task 3',
-            task: 'lorem epsum is here',
-        },
-        {
-            id: 5,
-            title: 'Task 3',
-            task: 'lorem epsum is here',
-        },
-        {
-            id: 6,
-            title: 'Task 3',
-            task: 'lorem epsum is here',
-        },
-        {
-            id: 7,
-            title: 'Task 3',
-            task: 'lorem epsum is here',
-        },
-    ];
 
   return (
     <View style={styles.container}>
@@ -86,7 +43,13 @@ const TodoScreen = () => {
                                 <Text style={styles.item}>{item.title}</Text>
                                 <Text style={styles.itemtask}>{item.description}</Text>
                             </View>
-                            <TouchableOpacity style={styles.deleteBtn} onPress={deleteTodo}>
+                            <TouchableOpacity style={styles.deleteBtn} onPress={() => {
+                                realm.write(() => {
+                                    const delTodo = realm.objectForPrimaryKey('Todo',item.id);
+                                    realm.delete(delTodo);
+                                });
+                                // setTodos(todos.filter(todo => todo.id !== item.id));
+                            }}>
                                 <MaterialCommunityIcons name="delete-outline" size={26} color="red" />
                             </TouchableOpacity>
                         </TouchableOpacity>

@@ -15,9 +15,9 @@ const AddTodoScreen = () => {
     const navigation = useNavigation();
 
     const addTodo = () => {
-        realm.write(() => {
+          realm.write(() => {
             realm.create('Todo', {
-              _id : ObjectId(),
+              id : new ObjectId(),
               title: title,
               description: description,
             });
